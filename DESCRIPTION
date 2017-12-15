@@ -1,0 +1,14 @@
+Package: edeg2018
+Title: What the Package Does (one line, title case)
+Version: 0.0.0.9000
+Authors@R: Luke Johnston <lwjohnst@gmail.com> [aut, cre]
+Description: What the package does (one paragraph).
+Depends: R (>= 3.4.3)
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Roxygen: TRUE
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Imports: devtools
