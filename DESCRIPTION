@@ -1,14 +1,23 @@
 Package: edeg2018
-Title: What the Package Does (one line, title case)
+Title: Abstract and Analysis Code for EDEG
 Version: 0.0.0.9000
-Authors@R: Luke Johnston <lwjohnst@gmail.com> [aut, cre]
-Description: What the package does (one paragraph).
+Authors@R: person("Luke", "Johnston", email = "lwjohnst@gmail.com", role = c("aut", "cre"))
+Description: Files for submitting an abstract to EDEG 2018.
 Depends: R (>= 3.4.3)
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Roxygen: TRUE
+Roxygen: list(markdown = TRUE)
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
-Imports: devtools
+Imports: devtools,
+    magrittr,
+    dplyr,
+    tidyr,
+    PROMISE.data,
+    PROMISE.scrub,
+    pls,
+    mason,
+    stringr
+RoxygenNote: 6.0.1
