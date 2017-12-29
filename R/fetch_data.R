@@ -1,25 +1,39 @@
-#' Fetch data from the original source
-#'
-#' This function fetchs the main dataset, keeps variables relevant to
-#' the analysis, restrict the sample size as needed, and lastly save
-#' the new dataset as an `.RData` file.
-#'
-#' @return Saves the wrangled data into the data/ folder.
-#' @export
-#'
-#' @examples
-#' fetch_data()
-#'
 fetch_data <- function() {
-    # Load the master dataset,
-    ds.prep <- read.table('path/to/file', na = "")
-    # Or ds.prep <- package::package_data
-    # Or ds.prep <- readr::read_csv()
+    project_data <-
+        left_join(
+            PROMISE.data::fattyacids %>%
+                select(SID, matches("^(ne|tg|pl|ce)")),
+            PROMISE.data::PROMISE %>%
+                filter(VN %in% c(0, 1)) %>%
+                arrange(SID, VN) %>%
+                PROMISE.scrub::scr_duplicates(c("SID"), action = "keepfirst") %>%
+                select(SID, HOMA2_S, ISI, ISSI2, IGIIR, TAG, HDL, Chol, Glucose0,
+                       ALT, CRP, MAP = MeanArtPressure, Waist, DM),
+            by = "SID"
+        ) %>%
+        left_join(
+            PROMISE.data::dhq %>%
+                filter(VN == 3) %>%
+                select(SID, diet_added_sugar, diet_discret_fat),
+            by = "SID"
+        ) %>%
+        filter(DM != 1 | is.na(DM)) %>%
+        mutate(
+            TotalFA = rowSums(select(., matches("^(ne|tg|pl|ce)"))),
+            invHDL = 1 / HDL
+        )
 
-    # Data wrangling commands
+    project_data <- project_data %>%
+        select_at(vars(matches("^(ne|tg|pl|ce)"))) %>%
+        rename_all(funs(paste0("pct_", .))) %>%
+        mutate_all(funs((. / project_data$TotalFA) * 100)) %>%
+        bind_cols(project_data)
 
-    # Final dataset object
-    project_data <- ds.prep
+    project_data <- project_data %>%
+        select_at(vars(TAG, ALT, CRP, ISI, ISSI2, IGIIR)) %>%
+        rename_all(funs(paste0("l", .))) %>%
+        mutate_all(log) %>%
+        bind_cols(project_data)
 
     # Save the dataset to the data/ folder.
     devtools::use_data(project_data, overwrite = TRUE)
