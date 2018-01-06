@@ -11,7 +11,7 @@ library(magrittr)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Word count: 350 words
+Word count: 351 / 350 words
 
 `r stringr::str_to_upper("**A specific serum fatty acid (FA) composition across multiple lipid fractions underlies pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**")`
 
