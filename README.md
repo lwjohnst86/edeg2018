@@ -1,3 +1,7 @@
+# Abstract for EDEG 2018 submission
+
+These files contain the analysis and abstract for the EDEG 2018 conference.
+
 # Introduction to this project
 
 This README details how this research directory is structured, how files should
