@@ -1,0 +1,123 @@
+---
+title: "Analysis"
+author: "Luke W. Johnston"
+date: "January 4, 2018"
+output: 
+    html_document:
+        fig_caption: true
+---
+
+<style>
+p.caption {
+  width: 90%;
+  margin-left: 25px;
+  font-size: 0.85em;
+}
+</style>
+
+```{r setup, include=FALSE}
+devtools::load_all()
+library(pls)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggrepel)
+library(mason)
+library(stringr)
+library(PROMISE.misc)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+## ISI
+
+Summary details of the PLS modelling:
+
+```{r}
+fit_isi <- pls_model(project_data, outcome = "lISI", ncomp = 4) 
+summary(fit_isi)
+```
+
+```{r, fig.cap="Violin plots (similar to boxplots) of generated PLS scores for each component against tertiles of ISI"}
+fit_isi %>% 
+    plot_scores()
+```
+
+```{r, fig.cap="Loadings by component. Positive loadings indicative of in general positive ISI values. Fatty acids that contribute more to loadings are in solid black with the fatty acid name attached. The percent explained variance of the two components is on the y-axis label."}
+fit_isi %>% 
+    plot_loadings()
+```
+
+```{r, fig.cap="Scatter plot of the correlation of the first two components with the fatty acid values.", fig.height=9, fig.width=9}
+seer::view_pls_xloadings(fit_isi)
+```
+
+Large contributors to the explained variance within the fatty acids and
+log(ISI) are:
+
+```{r}
+large_contributors(fit_isi)$fattyacid
+```
+
+## ISSI-2
+
+Summary details of the PLS modelling:
+
+```{r}
+fit_issi2 <- pls_model(project_data, outcome = "lISSI2", ncomp = 4) 
+summary(fit_issi2)
+```
+
+```{r, fig.cap="Violin plots (similar to boxplots) of generated PLS scores for each component against tertiles of ISSI-2"}
+fit_issi2 %>% 
+    plot_scores()
+```
+
+```{r, fig.cap="Loadings by component. Positive loadings indicative of in general positive ISSI-2 values. Fatty acids that contribute more to loadings are in solid black with the fatty acid name attached. The percent explained variance of the two components is on the y-axis label."}
+fit_issi2 %>% 
+    plot_loadings() 
+```
+
+```{r, fig.cap="Scatter plot of the correlation of the first two components with the fatty acid values.", fig.height=9, fig.width=9}
+seer::view_pls_xloadings(fit_issi2)
+```
+
+Large contributors to the explained variance within the fatty acids and
+log(ISSI-2) are:
+
+```{r}
+large_contributors(fit_issi2)$fattyacid
+```
+
+```{r, eval=FALSE}
+# MISC
+# Testing. Not sure I will use this.
+fit <- project_data %>% 
+    design("pls") %>% 
+    add_settings(ncomp = 6, validation = "CV") %>% 
+    add_variables("xvar", fa) %>% 
+    add_variables("yvar", c("Glucose0", "lTAG", "MAP", "invHDL", "Waist", 
+                            "lALT", "lCRP", "HOMA2_S")) %>% 
+    construct() %>% 
+    scrub()
+
+fit <- project_data %>% 
+    design("pls") %>% 
+    add_settings(ncomp = 6, validation = "CV") %>% 
+    add_variables("xvar", fa) %>% 
+    add_variables("yvar", c("Glucose0", "lTAG", "MAP", "invHDL", "Waist")) %>% 
+    construct() %>% 
+    scrub()
+summary(fit)
+seer::view_pls_xloadings(fit)
+```
+
+```{r, echo=FALSE}
+## NOTES about PLS:
+## 
+## So, a score is the extracted value of the reduced dimension of the X after
+## constrained by Y. A negative score reflects lower values of the Y and X (in
+## general, but not always), while a positive score reflects higher values of Y
+## and X. (This still needs to be checked/plotted.) So, a 
+
+```
+
