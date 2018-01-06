@@ -1,50 +1,100 @@
 ---
-bibliography: path/to/bib/file
-csl: path/to/bib/style/file
-output:
+output: 
     word_document:
-      fig_caption: true
+        reference_docx: template.docx
 ---
-
-Word count: 
-
-**Title here**
-
-Author list here
-
-**Background**: 
 
 ```{r setup, message = FALSE, echo = FALSE}
 devtools::load_all()
+library(pls)
+library(magrittr)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r caption_setup}
-## Include captions below using `captioner` package
-figNums <- captioner(prefix = 'Figure')
-tabNums <- captioner(prefix = 'Table')
-```
+Word count: 350 words
+
+`r stringr::str_to_upper("**A specific serum fatty acid (FA) composition across multiple lipid fractions underlies pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**")`
+
+**Luke W. Johnston^1^, Zhen Liu^1^, Stewart B. Harris^2^, Ravi Retnakaran^3,4^, Richard P. Bazinet^1^, Anthony J. Hanley^1,4,5^**
+
+| ^1^ Department of Nutritional Sciences, University of Toronto, Toronto, Canada
+| ^2^ Centre for Studies in Family Medicine, University of Western Ontario, London, Canada.
+| ^3^ Lunenfeld Tanenbaum Research Institute, Mount Sinai Hospital, Toronto, Canada
+| ^4^ Division of Endocrinology, University of Toronto, Toronto, Canada.
+| ^5^ Dalla Lana School of Public Health, University of Toronto, Toronto, Canada
+
+**Background**: 
+FA can positively or negatively influence metabolic function and could modulate
+risk for diabetes. Since FA within specific lipid fractions fulfill distinct
+physiological functions, a specific FA composition could be indicative of a
+greater risk for diabetes. Our aim was to therefore identify specific FA
+compositions across multiple lipid fractions that underlie insulin sensitivity
+(IS) and beta-cell function.
 
 **Methods**: 
+Adults at risk for diabetes (n=477) had blood drawn from an OGTT. FA from
+triacylglycerol (TGFA), phospholipid, cholesteryl ester, and non-esterified
+(NEFA) fractions were quantified from fasting samples and the mole percent
+(mol%) of total lipids was calculated. Outcome measures were the Matsuda index
+(ISI) for IS and the Insulin Secretion-Sensitivity Index-2 (ISSI-2) for
+beta-cell function. Partial least squares (PLS) was used to identify underlying
+clusters in the FA composition, with the FA from all lipid fractions as the
+predictor variables and ISI or ISSI-2 as the response variables, for two
+separate PLS models.
 
-```{r wrangle}
-ds
+```{r inline}
+# Models
+fit_isi <- pls_model(project_data, outcome = "lISI", ncomp = 4) 
+fit_issi2 <- pls_model(project_data, outcome = "lISSI2", ncomp = 4) 
+
+# Explained Variance
+# ISI:
+Y_explvar_isi <- (100 * drop(pls::R2(fit_isi, estimate = "train", intercept = FALSE)$val))[2] %>% 
+    round(1) %>% as.character()
+X_explvar_isi <- explvar(fit_isi)[1:2] %>% 
+    sum() %>% round(1) %>% as.character()
+    
+# ISSI-2
+Y_explvar_issi2 <- (100 * drop(pls::R2(fit_issi2, estimate = "train", intercept = FALSE)$val))[2] %>% 
+    round(1) %>% as.character()
+X_explvar_issi2 <- explvar(fit_issi2)[1:2] %>% 
+    sum() %>% round(1) %>% as.character()
+
+# Largest contributors
+lc_isi <- large_contributors(fit_isi)$fattyacid %>% 
+    grep("TG", ., value = TRUE)
+lc_issi2 <- large_contributors(fit_issi2)$fattyacid %>% 
+    grep("TG", ., value = TRUE) 
+tg_contrib <- intersect(lc_isi, lc_issi2) %>% 
+    stringr::str_replace_all(" ", "") %>% 
+    paste(collapse = ", ")
 ```
-
-```{r inlineCode}
-
-```
-
 
 **Results**:
+The first two PLS components (C1 and C2) were extracted. These components
+explained `r Y_explvar_isi`% and `r Y_explvar_issi2`% of the variance in the
+outcomes and explained `r X_explvar_isi`% and `r X_explvar_issi2`% of the
+variance in the FA for ISI and ISSI-2, respectively. TGFA loaded heavily on C1,
+while NEFA loaded heavily on C2. Only specific TGFA contributed substantially to
+the variability in the outcomes (i.e. `r tg_contrib`). A higher mol% of these
+specific TGFA associated with lower ISI and ISSI-2 values.
 
-**Discussion**:
+**Conclusions**:
+We identified a cluster of TGFA that had a strong relationship with lower IS
+and, to a lesser extent, beta-cell function. These TGFA (e.g. 16:1n-7) are
+reported to associate with refined or simple carbohydrate intake and have
+experimentally been shown to exhibit lipotoxic effects. Our results suggest that
+only a few FA from a broad spectrum of serum FA may underlie the association
+between lipids and glucose dysregulation, and that these lipids are possible
+mediators between the reported associations of carbohydrate intake and diabetes
+risk.
 
-```{r figureChunk, fig.cap = 'Figure Caption'}
+**Author information**
 
-```
-
-<!-- Session info -->
-```{r}
-##sessionInfo()
-```
+- Presenting author contact:
+    - Name: Luke W. Johnston
+    - Telephone: +16474606580
+    - Email: luke.johnston@mail.utoronto.ca
+- Presentation preferred: Either oral or poster
+- I am a younger researcher: Post Doctorate researcher
 
