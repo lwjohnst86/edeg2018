@@ -19,5 +19,10 @@ Imports: devtools,
     PROMISE.scrub,
     pls,
     mason,
-    stringr
+    stringr,
+    ggplot2,
+    ggrepel,
+    PROMISE.misc,
+    forcats,
+    tibble
 RoxygenNote: 6.0.1
