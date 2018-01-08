@@ -62,10 +62,11 @@ scores_as_df <- function(model) {
     bind_cols(.data, .scores)
 }
 
+calc_radius <- function(x, y) {
+    sqrt(x ^ 2 + y ^ 2)
+}
+
 large_contributors <- function(.model) {
-    calc_radius <- function(x, y) {
-        sqrt(x ^ 2 + y ^ 2)
-    }
     expl_var_50 <- sqrt(1 / 2)
     .model %>%
         model.matrix() %>%
