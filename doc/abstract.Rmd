@@ -7,39 +7,38 @@ output:
 ```{r setup, message = FALSE, echo = FALSE}
 devtools::load_all()
 library(pls)
-library(magrittr)
+library(dplyr)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Word count: 351 / 350 words
+Word count: 343 / 350 words
 
-`r stringr::str_to_upper("**A specific serum fatty acid (FA) composition across multiple lipid fractions underlies pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**")`
+`r stringr::str_to_upper("**Specific clusters of fatty acid (FA) across multiple serum lipid fractions underlies pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**")`
 
-**Luke W. Johnston^1^, Zhen Liu^1^, Stewart B. Harris^2^, Ravi Retnakaran^3,4^, Richard P. Bazinet^1^, Anthony J. Hanley^1,4,5^**
+**Luke W. Johnston^1^, Zhen Liu^1^, Ravi Retnakaran^2,3^, Stewart B. Harris^5^, Richard P. Bazinet^1^, Anthony J. Hanley^1,3,5^**
 
 | ^1^ Department of Nutritional Sciences, University of Toronto, Toronto, Canada
-| ^2^ Centre for Studies in Family Medicine, University of Western Ontario, London, Canada.
-| ^3^ Lunenfeld Tanenbaum Research Institute, Mount Sinai Hospital, Toronto, Canada
-| ^4^ Division of Endocrinology, University of Toronto, Toronto, Canada.
+| ^2^ Lunenfeld Tanenbaum Research Institute, Mount Sinai Hospital, Toronto, Canada
+| ^3^ Division of Endocrinology, University of Toronto, Toronto, Canada.
+| ^4^ Centre for Studies in Family Medicine, University of Western Ontario, London, Canada.
 | ^5^ Dalla Lana School of Public Health, University of Toronto, Toronto, Canada
 
 **Background**: 
-FA can positively or negatively influence metabolic function and could modulate
-risk for diabetes. Since FA within specific lipid fractions fulfill distinct
-physiological functions, a specific FA composition could be indicative of a
-greater risk for diabetes. Our aim was to therefore identify specific FA
-compositions across multiple lipid fractions that underlie insulin sensitivity
+Since FA within individual lipid fractions fulfill distinct
+physiological functions, a specific clusters of FA could be indicative of a
+greater risk for diabetes. Our aim, therefore, was to identify specific patterns in the 
+composition of FA across multiple lipid fractions and their association with insulin sensitivity
 (IS) and beta-cell function.
 
 **Methods**: 
-Adults at risk for diabetes (n=477) had blood drawn from an OGTT. FA from
+Adults at risk for diabetes (n=477) had blood drawn at fasting and during an OGTT. FA from
 triacylglycerol (TGFA), phospholipid, cholesteryl ester, and non-esterified
 (NEFA) fractions were quantified from fasting samples and the mole percent
-(mol%) of total lipids was calculated. Outcome measures were the Matsuda index
+(mol%) of total lipids was calculated. Outcome measures included the Matsuda index
 (ISI) for IS and the Insulin Secretion-Sensitivity Index-2 (ISSI-2) for
 beta-cell function. Partial least squares (PLS) was used to identify underlying
-clusters in the FA composition, with the FA from all lipid fractions as the
-predictor variables and ISI or ISSI-2 as the response variables, for two
+clusters in the FA composition, with FA from all lipid fractions included as the
+predictor variables and ISI or ISSI-2 as the response variables, in
 separate PLS models.
 
 ```{r inline}
@@ -68,26 +67,45 @@ lc_issi2 <- large_contributors(fit_issi2)$fattyacid %>%
 tg_contrib <- intersect(lc_isi, lc_issi2) %>% 
     stringr::str_replace_all(" ", "") %>% 
     paste(collapse = ", ")
+estrange <- analyze_gee_pls() %>% 
+    group_by(Yterms) %>% 
+    mutate(estimate = round(estimate, 1)) %>% 
+    summarize(estimate = paste(estimate, collapse = "-"))
 ```
 
 **Results**:
 The first two PLS components (C1 and C2) were extracted. These components
-explained `r Y_explvar_isi`% and `r Y_explvar_issi2`% of the variance in the
-outcomes and explained `r X_explvar_isi`% and `r X_explvar_issi2`% of the
-variance in the FA for ISI and ISSI-2, respectively. TGFA loaded heavily on C1,
-while NEFA loaded heavily on C2. Only specific TGFA contributed substantially to
-the variability in the outcomes (i.e. `r tg_contrib`). A higher mol% of these
-specific TGFA associated with lower ISI and ISSI-2 values.
+explained `r Y_explvar_issi2`-`r Y_explvar_isi`% of the variance in the
+outcomes and explained `r X_explvar_issi2`-`r X_explvar_isi`% of the
+variance in the FA. TGFA and NEFA strongly loaded negatively on C1 and C2, respectively (see Figure A).
+Only specific TGFA contributed substantially to
+the variability in the outcomes with C1 and C2 (i.e. `r tg_contrib`; see Figure B). A lower PLS score (higher mol% of TGFA)
+associated with `r estrange$estimate[1]`% lower ISI and `r estrange$estimate[2]`% lower ISSI-2.
 
 **Conclusions**:
-We identified a cluster of TGFA that had a strong relationship with lower IS
-and, to a lesser extent, beta-cell function. These TGFA (e.g. 16:1n-7) are
-reported to associate with refined or simple carbohydrate intake and have
-experimentally been shown to exhibit lipotoxic effects. Our results suggest that
+We identified a cluster of TGFA that had a strong negative association with IS
+and beta-cell function. These TGFA (e.g. 16:1n-7) are
+reported to associate with de novo lipogenesis from simple carbohydrates and 
+to exhibit lipotoxic effects. Our results suggest that
 only a few FA from a broad spectrum of serum FA may underlie the association
 between lipids and glucose dysregulation, and that these lipids are possible
 mediators between the reported associations of carbohydrate intake and diabetes
 risk.
+
+```{r, fig.height=7, fig.width=5}
+# Figure
+library(patchwork)
+library(ggplot2)
+fig_loadings <- pls_model(project_data, "lISI", 2) %>% 
+    plot_loadings() +
+    ggtitle("A: Component loadings for each fatty acid for ISI")
+
+fig_corr <- plot_corr_comps("lISI") +
+    ggtitle("B: Scatterplot of correlation loadings for ISI")
+
+fig_loadings + fig_corr + plot_layout(ncol = 1, heights = c(2, 4))
+```
+
 
 **Author information**
 
