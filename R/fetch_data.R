@@ -37,4 +37,20 @@ fetch_data <- function() {
 
     # Save the dataset to the data/ folder.
     devtools::use_data(project_data, overwrite = TRUE)
+
+    # Longitudinal data for outcomes
+    over_time_data <- PROMISE.data::PROMISE %>%
+        filter(VN %in% c(1, 3, 6)) %>%
+        arrange(SID, VN) %>%
+        select(SID, VN, MonthsFromBaseline, ISI, ISSI2) %>%
+        mutate(YearsFromBaseline = MonthsFromBaseline / 12)
+
+    over_time_data <- over_time_data %>%
+        select_at(vars(ISI, ISSI2)) %>%
+        rename_all(funs(paste0("l", .))) %>%
+        mutate_all(log) %>%
+        bind_cols(over_time_data)
+
+    # Save the dataset to the data/ folder.
+    devtools::use_data(over_time_data, overwrite = TRUE)
 }
