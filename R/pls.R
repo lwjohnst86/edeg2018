@@ -33,6 +33,7 @@ append_large_loadings <- function(.loadings) {
         gather(components, loadings, -xvariables) %>%
         mutate(loadings = as.numeric(loadings)) %>%
         group_by(components) %>%
+        mutate(Fraction = stringr::str_extract(xvariables, "NE|TG|PL|CE")) %>%
         mutate(
             max_loading = max(loadings),
             min_loading = min(loadings),
