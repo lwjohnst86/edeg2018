@@ -2,23 +2,27 @@
 plot_loadings <- function(.model) {
     total_expl_var <- pls::explvar(.model)[1:2] %>%
         sum() %>%
-        round(2) %>%
+        round(1) %>%
         as.character()
     .model %>%
         loadings_as_df() %>%
         append_large_loadings() %>%
         filter(components %in% c("Comp 1", "Comp 2")) %>%
-        ggplot(aes(x = loadings, y = components)) +
+        mutate(components = stringr::str_replace(components, "omp ", "")) %>%
+        ggplot(aes(x = loadings, y = components, colour = Fraction)) +
         geom_point(aes(alpha = large_loadings)) +
-        geom_text_repel(
+        ggrepel::geom_text_repel(
             aes(label = xvariables),
             size = 3,
             box.padding = 0.4,
-            segment.alpha = 0.3
+            segment.alpha = 0.3,
+            colour = "black"
         ) +
-        theme(legend.position = "none") +
+        viridis::scale_color_viridis(discrete = TRUE) +
         labs(y = paste0("PLS Components (", total_expl_var, "%)"),
-             x = "PLS loadings for each fatty acid")
+             x = "PLS loadings for each fatty acid") +
+        scale_alpha_discrete(guide = "none") +
+        theme_classic()
 }
 
 plot_scores <- function(.model) {
