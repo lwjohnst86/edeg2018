@@ -9,7 +9,8 @@ plot_loadings <- function(.model) {
         append_large_loadings() %>%
         filter(components %in% c("Comp 1", "Comp 2")) %>%
         mutate(components = stringr::str_replace(components, "omp ", "")) %>%
-        ggplot(aes(x = loadings, y = components, colour = Fraction)) +
+        # ggplot(aes(x = loadings, y = components, colour = Fraction)) +
+        ggplot(aes(x = loadings, y = components)) +
         geom_point(aes(alpha = large_loadings)) +
         ggrepel::geom_text_repel(
             aes(label = xvariables),
@@ -18,7 +19,7 @@ plot_loadings <- function(.model) {
             segment.alpha = 0.3,
             colour = "black"
         ) +
-        viridis::scale_color_viridis(discrete = TRUE) +
+        # viridis::scale_color_viridis(discrete = TRUE) +
         labs(y = paste0("PLS Components (", total_expl_var, "%)"),
              x = "PLS loadings for each fatty acid") +
         scale_alpha_discrete(guide = "none") +
@@ -58,7 +59,8 @@ plot_corr_comps <- function(outcome, title = NULL) {
         mutate(xvariables = PROMISE.misc::renaming_fa(xvariables) %>%
                    stringr::str_replace("pct_", "")) %>%
         mutate(Fraction = factor(stringr::str_extract(xvariables, "NE|TG|PL|CE"))) %>%
-        mutate(xvariables = ifelse(calc_radius(C1, C2) >= expl_var_50, xvariables, NA))
+        mutate(xvariables = ifelse(calc_radius(C1, C2) >= expl_var_50, xvariables, NA)) %>%
+        mutate(large_loadings = ifelse(calc_radius(C1, C2) >= expl_var_50, TRUE, FALSE))
 
     circle_outer <- seer:::.circle_data(1)
     circle_inner <- seer:::.circle_data(sqrt(1 / 2))
@@ -78,8 +80,10 @@ plot_corr_comps <- function(outcome, title = NULL) {
         ), colour = 'grey90') +
         geom_path(data = circle_outer, aes(x = x, y = y)) +
         geom_path(data = circle_inner, aes(x = x, y = y), linetype = 'dotted') +
-        geom_point(data = fit, aes(colour = Fraction)) +
-        viridis::scale_color_viridis(discrete = TRUE) +
+        geom_point(data = fit, aes(alpha = large_loadings)) +
+        scale_alpha_discrete(guide = "none") +
+        # geom_point(data = fit, aes(colour = Fraction)) +
+        # viridis::scale_color_viridis(discrete = TRUE) +
         # scale_color_brewer(palette = "Set1") +
         ggrepel::geom_text_repel(
             data = fit,
