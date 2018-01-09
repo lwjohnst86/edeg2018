@@ -119,5 +119,13 @@ seer::view_pls_xloadings(fit)
 ## general, but not always), while a positive score reflects higher values of Y
 ## and X. (This still needs to be checked/plotted.) So, a 
 
+## Loading is the *weight* or *coefficient* in the linear model (e.g. Y = 0.5X1 + 0.4X2,
+## where loading for X1 is 0.5, for X2 is 0.4)
+## 
+## Correlation loadings (or the correlation plot) is the correlation between the
+## PLS score and the X variable. They will be similar to the loadings/weights/coefficients,
+## but will be slightly different because the PLS score is the computed value from the 
+## linear model (based on all the xvariables and loadings/weights).
+
 ```
 
