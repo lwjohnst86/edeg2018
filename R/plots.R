@@ -20,8 +20,8 @@ plot_loadings <- function(.model) {
             colour = "black"
         ) +
         # viridis::scale_color_viridis(discrete = TRUE) +
-        labs(y = paste0("PLS Components (", total_expl_var, "%)"),
-             x = "PLS loadings for each fatty acid") +
+        labs(y = paste0("Components (", total_expl_var, "% total \nexplained variance)"),
+             x = "Loading (coefficient) values for the component") +
         scale_alpha_discrete(guide = "none") +
         theme_classic()
 }
@@ -93,8 +93,8 @@ plot_corr_comps <- function(outcome, title = NULL) {
             segment.alpha = 0.3
         ) +
         labs(
-            x = paste0('C1 (', round(pls::explvar(.model)[1], 1), '%)'),
-            y = paste0('C2 (', round(pls::explvar(.model)[2], 1), '%)'),
+            x = paste0('C1 (', round(pls::explvar(.model)[1], 1), '% explained variance)'),
+            y = paste0('C2 (', round(pls::explvar(.model)[2], 1), '% explained variance)'),
             title = title
         ) +
         theme_classic()
