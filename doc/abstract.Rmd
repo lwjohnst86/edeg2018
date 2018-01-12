@@ -15,7 +15,7 @@ Word count: 346 / 350 words
 
 `r stringr::str_to_upper("**Specific clusters of fatty acids (FA) across multiple serum lipid fractions underlie pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**")`
 
-**Luke W. Johnston^1^, Zhen Liu^1^, Ravi Retnakaran^2,3^, Stewart B. Harris^5^, Richard P. Bazinet^1^, Anthony J. Hanley^1,3,5^**
+**Luke W. Johnston^1^, Zhen Liu^1^, Ravi Retnakaran^2,3^, Stewart B. Harris^4^, Richard P. Bazinet^1^, Anthony J. Hanley^1,3,5^**
 
 | ^1^ Department of Nutritional Sciences, University of Toronto, Toronto, Canada
 | ^2^ Lunenfeld Tanenbaum Research Institute, Mount Sinai Hospital, Toronto, Canada
