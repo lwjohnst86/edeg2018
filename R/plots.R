@@ -14,7 +14,7 @@ plot_loadings <- function(.model) {
         geom_point(aes(alpha = large_loadings)) +
         ggrepel::geom_text_repel(
             aes(label = xvariables),
-            size = 3,
+            size = 2,
             box.padding = 0.4,
             segment.alpha = 0.3,
             colour = "black"
@@ -88,7 +88,7 @@ plot_corr_comps <- function(outcome, title = NULL) {
         ggrepel::geom_text_repel(
             data = fit,
             aes(label = xvariables),
-            size = 3,
+            size = 2,
             box.padding = 0.4,
             segment.alpha = 0.3
         ) +
