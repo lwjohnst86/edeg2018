@@ -1,26 +1,19 @@
 
-plot_loadings <- function(.model) {
-    total_expl_var <- pls::explvar(.model)[1:2] %>%
-        sum() %>%
-        round(1) %>%
-        as.character()
-    .model %>%
-        loadings_as_df() %>%
+plot_loadings <- function(.data) {
+    .data %>%
         append_large_loadings() %>%
-        filter(components %in% c("Comp 1", "Comp 2")) %>%
-        mutate(components = stringr::str_replace(components, "omp ", "")) %>%
         # ggplot(aes(x = loadings, y = components, colour = Fraction)) +
-        ggplot(aes(x = loadings, y = components)) +
-        geom_point(aes(alpha = large_loadings)) +
+        ggplot(aes(x = Loadings, y = Components)) +
+        geom_point(aes(alpha = LargeLoadings)) +
         ggrepel::geom_text_repel(
-            aes(label = xvariables),
+            aes(label = FA),
             size = 2,
             box.padding = 0.4,
             segment.alpha = 0.3,
             colour = "black"
         ) +
         # viridis::scale_color_viridis(discrete = TRUE) +
-        labs(y = paste0("Components (", total_expl_var, "% total \nexplained variance)"),
+        labs(y = paste0("Components (", unique(.data$TotalExplVar), "% total \nexplained variance)"),
              x = "Loading (coefficient) values for the component") +
         scale_alpha_discrete(guide = "none") +
         theme_classic()
@@ -48,57 +41,26 @@ plot_scores <- function(.model) {
 }
 
 
-plot_corr_comps <- function(outcome, title = NULL) {
-    # xloadings <-
-    .model <- pls_model(project_data, outcome = outcome, ncomp = 2)
-    expl_var_50 <- sqrt(1 / 2)
-
-    fit <- cor(model.matrix(.model), pls::scores(.model)[, 1:2, drop = FALSE]) %>%
-        as_tibble(rownames = "xvariables") %>%
-        setNames(c('xvariables', 'C1', 'C2')) %>%
-        mutate(xvariables = PROMISE.misc::renaming_fa(xvariables) %>%
-                   stringr::str_replace("pct_", "")) %>%
-        mutate(Fraction = factor(stringr::str_extract(xvariables, "NE|TG|PL|CE"))) %>%
-        mutate(xvariables = ifelse(calc_radius(C1, C2) >= expl_var_50, xvariables, NA)) %>%
-        mutate(large_loadings = ifelse(calc_radius(C1, C2) >= expl_var_50, TRUE, FALSE))
-
-    circle_outer <- seer:::.circle_data(1)
-    circle_inner <- seer:::.circle_data(sqrt(1 / 2))
-
-    fig <- ggplot(fit, aes_string(x = "C1", y = "C2")) +
-        geom_segment(aes(
-            x = -1,
-            y = 0,
-            xend = 1,
-            yend = 0
-        ), colour = 'grey90') +
-        geom_segment(aes(
-            x = 0,
-            y = -1,
-            xend = 0,
-            yend = 1
-        ), colour = 'grey90') +
-        geom_path(data = circle_outer, aes(x = x, y = y)) +
-        geom_path(data = circle_inner, aes(x = x, y = y), linetype = 'dotted') +
-        geom_point(data = fit, aes(alpha = large_loadings)) +
+plot_corr_comps <- function(.data) {
+    .data %>%
+        ggplot(aes_string(x = "C1", y = "C2")) +
+        ggepi::geom_corr_circle() +
         scale_alpha_discrete(guide = "none") +
         # geom_point(data = fit, aes(colour = Fraction)) +
         # viridis::scale_color_viridis(discrete = TRUE) +
         # scale_color_brewer(palette = "Set1") +
         ggrepel::geom_text_repel(
-            data = fit,
-            aes(label = xvariables),
+            aes(label = FA),
             size = 2,
             box.padding = 0.4,
             segment.alpha = 0.3
         ) +
         labs(
-            x = paste0('C1 (', round(pls::explvar(.model)[1], 1), '% explained variance)'),
-            y = paste0('C2 (', round(pls::explvar(.model)[2], 1), '% explained variance)'),
+            x = paste0('C1 (', round(attr(.data, "explvar"), 1), '% explained variance)'),
+            y = paste0('C2 (', round(attr(.data, "explvar"), 1), '% explained variance)'),
             title = title
         ) +
         theme_classic()
-    fig
 }
 
 
