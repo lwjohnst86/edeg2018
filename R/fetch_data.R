@@ -53,4 +53,8 @@ fetch_data <- function() {
 
     # Save the dataset to the data/ folder.
     devtools::use_data(over_time_data, overwrite = TRUE)
+
+    # Save variable names
+    varnames <- names(project_data)
+    devtools::use_data(varnames, internal = TRUE, overwrite = TRUE)
 }
