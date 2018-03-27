@@ -45,10 +45,10 @@ pls_loadings_as_df <- function(.model) {
                    sum() %>%
                    round(1) %>%
                    as.character(),
-               Outcome = dimnames(.model$model$Y)[[2]])
+               Outcome = dimnames(.model$model$Y)[[2]]) %>%
+        purrr::modify(~ {attributes(.x)$explvar <- NULL; .x})
 
-    # attr(model, "explvar") <- pls::explvar(.model)
-    print(str(model))
+    attr(model, "explvar") <- pls::explvar(.model)
     model
 }
 
