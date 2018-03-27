@@ -13,6 +13,7 @@ devtools::load_all()
 library(pls)
 library(dplyr)
 library(ggplot2)
+library(ggepi)
 library(patchwork)
 knitr::opts_chunk$set(echo = FALSE)
 ```
@@ -125,15 +126,16 @@ plot_heatmap(corr_pct) +
 ```{r fig_pls}
 # PLS loadings and corr circle plots: 2 x 2 of loadings on left and corr on right.
 # - Loadings show 2-3 Components?
-pls_loadings_pct %>% 
-    filter(Outcome == "lISI") %>% 
+pls_loadings_pct$lISI %>% 
     plot_loadings()
-pls_loadings_conc %>% 
-    filter(Outcome == "lISI") %>% 
+pls_loadings_conc$lISI %>% 
     plot_loadings()
 
-pls_corr_pct %>% 
-    filter(Outcome == "lISI") %>% 
+pls_corr_pct$lISI %>% 
+    ggplot(aes(x = C1, y = C2, colour = !LargeLoadings)) +
+    geom_corr_circle(size = 1) +
+    scale_color_grey() +
+    coord_cartesian(ylim = c(-1, 1), xlim = c(-1, 1))
     plot_corr_comps()
 ```
 
