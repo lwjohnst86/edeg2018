@@ -1,4 +1,4 @@
-#' @import dplyr tidyr mason ggplot2
+#' @import dplyr tidyr mason ggplot2 ggepi
 #' @importFrom magrittr %>%
 `%>%` <- magrittr::`%>%`
 
