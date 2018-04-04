@@ -1,14 +1,15 @@
 ---
 title: "European Diabetes Epidemiology Group Conference, 2018"
 output: 
-  postr::flex_dashboard_poster:
-    render_print: false
+    html_document: default
+    postr::flex_dashboard_poster:
+        render_print: false
 ---
 
 
 ## Header row {data-height=15}
 
-```{r setup, message = FALSE, echo = FALSE}
+```{r setup, message=FALSE, echo=FALSE}
 devtools::load_all()
 library(pls)
 library(dplyr)
@@ -41,7 +42,7 @@ knitr::opts_chunk$set(echo = FALSE)
 </tr>
 </table> 
 
-## Body row {data-height=75}
+## Body row {data-height=85}
 
 ###
 
@@ -67,7 +68,7 @@ variables, in two separate PLS models.
 
 {{include DOI to code.}}
 
-### **Column 2 title**
+### 
 
 ```{r inline}
 # Models
@@ -116,26 +117,25 @@ associated with `r estrange$estimate[1]`% lower ISI and `r estrange$estimate[2]`
 plot_heatmap(corr_pct) +
     facet_grid(~ Fraction, switch = "x") +
     theme(strip.placement = "outside",
-          panel.border = element_rect(fill = NA, colour = "grey80"))
+          panel.border = element_rect(fill = NA, colour = "grey80")) +
+    ylab("Fatty acids (mol% of total)")
 # plot_heatmap(corr_conc) +
 #     facet_grid(~ Fraction, switch = "x") +
 #     theme(strip.placement = "outside",
 #           panel.border = element_rect(fill = NA, colour = "grey80"))
 ```
 
-```{r fig_pls}
+```{r fig_pls, fig.height=7, fig.width=7}
 # PLS loadings and corr circle plots: 2 x 2 of loadings on left and corr on right.
 # - Loadings show 2-3 Components?
+
 pls_loadings_pct$lISI %>% 
     plot_loadings()
+
 pls_loadings_conc$lISI %>% 
     plot_loadings()
 
 pls_corr_pct$lISI %>% 
-    ggplot(aes(x = C1, y = C2, colour = !LargeLoadings)) +
-    geom_corr_circle(size = 1) +
-    scale_color_grey() +
-    coord_cartesian(ylim = c(-1, 1), xlim = c(-1, 1))
     plot_corr_comps()
 ```
 
@@ -175,7 +175,7 @@ fig_corr <- plot_corr_comps("lISSI2") +
 fig_loadings + fig_corr + plot_layout(ncol = 2, widths = c(3, 2))
 ```
 
-### **Column 3 title**
+### 
 
 **Conclusions**:
 We identified a cluster of TGFA that had strong negative associations with IS
@@ -187,9 +187,7 @@ between lipids and glucose dysregulation, and that these lipids are possible
 mediators between the reported associations of carbohydrate intake and diabetes
 risk.
 
-## Footer row {data-height=10} 
-
-### Contact information {data-width=50 .small}
+#### Contact information {data-width=50 .small}
 
 | Luke W. Johnston, MSc, PhD
 | Email: lwjohnst@ph.au.dk
@@ -197,6 +195,5 @@ risk.
 | DOI for code and poster: {{DOI, maybe QC code?}}
 | ORCID: <a href="https://orcid.org/0000-0003-4169-2616" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">orcid.org/0000-0003-4169-2616</a>
 
-![ORCID QR Code](resources/ORCID.png)
+#### References {.small}
 
-### References {data-width=50 .small}
