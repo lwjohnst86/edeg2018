@@ -42,26 +42,23 @@ plot_scores <- function(.model) {
 
 plot_corr_comps <- function(.data) {
     expl_var <- attributes(.data)$explvar
-    ggplot(data = .data, aes(x = C1, y = C2, colour = as.factor(LargeLoadings))) +
-        # ggplot(aes(x = C1, y = C2)) +
-        geom_corr_circle()
-    # +
-    #     scale_alpha_discrete(guide = "none") +
-    #     # geom_point(data = fit, aes(colour = Fraction)) +
-    #     # viridis::scale_color_viridis(discrete = TRUE) +
-    #     # scale_color_brewer(palette = "Set1") +
-    #     ggrepel::geom_text_repel(
-    #         aes(label = LargeLoadingsXvar),
-    #         size = 2,
-    #         box.padding = 0.4,
-    #         segment.alpha = 0.3
-    #     ) +
-    #     labs(
-    #         x = paste0('C1 (', round(expl_var[1], 1), '% explained variance)'),
-    #         y = paste0('C2 (', round(expl_var[2], 1), '% explained variance)'),
-    #         title = title
-    #     ) +
-    #     theme_classic()
+    .data %>%
+        ggplot(aes(x = C1, y = C2, colour = Fraction)) +
+        geom_corr_circle(size = 1) +
+        ggrepel::geom_text_repel(
+            aes(label = LargeLoadingsXvar),
+            size = 2,
+            box.padding = 0.4,
+            segment.alpha = 0.3,
+            colour = "black"
+        ) +
+        viridis::scale_color_viridis(discrete = TRUE) +
+        coord_cartesian(ylim = c(-1, 1), xlim = c(-1, 1)) +
+        labs(
+            x = paste0('C1 (', round(expl_var[1], 1), '% explained variance)'),
+            y = paste0('C2 (', round(expl_var[2], 1), '% explained variance)')
+        ) +
+        theme_classic()
 }
 
 
