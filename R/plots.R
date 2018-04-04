@@ -2,9 +2,8 @@
 plot_loadings <- function(.data) {
     .data %>%
         append_large_loadings() %>%
-        # ggplot(aes(x = loadings, y = components, colour = Fraction)) +
         ggplot(aes(x = Loadings, y = Components)) +
-        geom_point(aes(alpha = LargeLoadings)) +
+        geom_point(aes(alpha = LargeLoadings, colour = Fraction)) +
         ggrepel::geom_text_repel(
             aes(label = FA),
             size = 2,
@@ -12,7 +11,7 @@ plot_loadings <- function(.data) {
             segment.alpha = 0.3,
             colour = "black"
         ) +
-        # viridis::scale_color_viridis(discrete = TRUE) +
+        viridis::scale_color_viridis(discrete = TRUE) +
         labs(y = paste0("Components (", unique(.data$TotalExplVar), "% total \nexplained variance)"),
              x = "Loading (coefficient) values for the component") +
         scale_alpha_discrete(guide = "none") +
