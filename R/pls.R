@@ -100,3 +100,15 @@ calc_radius <- function(x, y) {
 extract_fraction <- function(x) {
     stringr::str_sub(x, 1L, 2L)
 }
+
+large_contributors <- function(.model) {
+    expl_var_50 <- sqrt(1 / 2)
+    .model %>%
+        model.matrix() %>%
+        cor(pls::scores(.model)[, 1:2, drop = FALSE]) %>%
+        as_tibble(rownames = "fattyacid") %>%
+        rename_all(funs(stringr::str_replace(., " ", ""))) %>%
+        mutate(fattyacid = PROMISE.misc::renaming_fa(fattyacid) %>%
+                   stringr::str_replace("pct_", "")) %>%
+        filter(calc_radius(Comp1, Comp2) >= expl_var_50)
+}
