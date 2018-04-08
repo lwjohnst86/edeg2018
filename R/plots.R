@@ -9,17 +9,17 @@ plot_loadings <- function(.model) {
         append_large_loadings() %>%
         filter(components %in% c("Comp 1", "Comp 2")) %>%
         mutate(components = stringr::str_replace(components, "omp ", "")) %>%
-        # ggplot(aes(x = loadings, y = components, colour = Fraction)) +
-        ggplot(aes(x = loadings, y = components)) +
+        ggplot(aes(x = loadings, y = components, colour = Fraction)) +
+        # ggplot(aes(x = loadings, y = components)) +
         geom_point(aes(alpha = large_loadings)) +
         ggrepel::geom_text_repel(
             aes(label = xvariables),
-            size = 2,
+            size = 2.5,
             box.padding = 0.4,
             segment.alpha = 0.3,
             colour = "black"
         ) +
-        # viridis::scale_color_viridis(discrete = TRUE) +
+        viridis::scale_color_viridis(discrete = TRUE) +
         labs(y = paste0("Components (", total_expl_var, "% total \nexplained variance)"),
              x = "Loading (coefficient) values for the component") +
         scale_alpha_discrete(guide = "none") +
@@ -82,13 +82,13 @@ plot_corr_comps <- function(outcome, title = NULL) {
         geom_path(data = circle_inner, aes(x = x, y = y), linetype = 'dotted') +
         geom_point(data = fit, aes(alpha = large_loadings)) +
         scale_alpha_discrete(guide = "none") +
-        # geom_point(data = fit, aes(colour = Fraction)) +
-        # viridis::scale_color_viridis(discrete = TRUE) +
+        geom_point(data = fit, aes(colour = Fraction)) +
+        viridis::scale_color_viridis(discrete = TRUE) +
         # scale_color_brewer(palette = "Set1") +
         ggrepel::geom_text_repel(
             data = fit,
             aes(label = xvariables),
-            size = 2,
+            size = 2.5,
             box.padding = 0.4,
             segment.alpha = 0.3
         ) +
