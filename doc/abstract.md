@@ -9,6 +9,9 @@ devtools::load_all()
 library(pls)
 library(dplyr)
 knitr::opts_chunk$set(echo = FALSE)
+
+warning("Code has changed since submission, code within abstract will not run.")
+knitr::opts_chunk$set(eval = FALSE)
 ```
 
 Word count: 346 / 350 words

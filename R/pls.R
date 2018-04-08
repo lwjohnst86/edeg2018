@@ -1,46 +1,59 @@
 
-pls_setup <- function(.data, ncomp = 4) {
-    fa <- grep("^pct_.*", names(.data), value = TRUE)
+# Analyze PLS -------------------------------------------------------------
+
+analyze_pls <- function(.data, .yvar, .xvar, .ncomp = 4, .cv = FALSE) {
     .data %>%
         design("pls") %>%
-        add_settings(ncomp = ncomp,
+        add_settings(ncomp = .ncomp,
                      validation = "CV",
-                     cv.data = FALSE) %>%
-        add_variables("xvar", fa)
-}
-
-pls_model <- function(.data, outcome, ncomp) {
-    .data %>%
-        pls_setup(ncomp = ncomp) %>%
-        add_variables("yvar", outcome) %>%
+                     cv.data = .cv) %>%
+        add_variables("xvar", .xvar) %>%
+        add_variables("yvar", .yvar) %>%
         construct() %>%
         scrub()
 }
 
-loadings_as_df <- function(model) {
-    loading_nums <- unclass(pls::loadings(model))
 
-    loading_nums %>%
-        as_data_frame() %>%
-        mutate(xvariables = dimnames(loading_nums)[[1]])
+# Wrangling PLS models ----------------------------------------------------
 
+pls_corr_as_df <- function(.model) {
+    expl_var_50 <- sqrt(1 / 2) - 0.07
+    model <- cor(model.matrix(.model), pls::scores(.model)) %>%
+        as_tibble(rownames = "xvariables") %>%
+        tibble::set_tidy_names(syntactic = TRUE) %>%
+        rename_at(vars(contains("Comp.")), funs(stringr::str_replace(., "Comp\\.", "C"))) %>%
+        mutate(
+            xvariables = PROMISE.misc::renaming_fa(xvariables) %>%
+                stringr::str_replace("pct_", ""),
+            Fraction = extract_fraction(xvariables),
+            LargeLoadings = if_else(calc_radius(C1, C2) >= expl_var_50, TRUE, FALSE),
+            LargeLoadingsXvar = if_else(LargeLoadings, xvariables, NA_character_),
+            Outcome = dimnames(.model$model$Y)[[2]]
+        )
+
+    attr(model, "explvar") <- pls::explvar(.model)
+    model
 }
 
-append_large_loadings <- function(.loadings) {
-    .loadings %>%
-        mutate(xvariables = stringr::str_replace(xvariables, "pct_", "") %>%
-                   PROMISE.misc::renaming_fa(keep.fraction = TRUE)) %>%
-        gather(components, loadings, -xvariables) %>%
-        mutate(loadings = as.numeric(loadings)) %>%
-        group_by(components) %>%
-        mutate(Fraction = stringr::str_extract(xvariables, "NE|TG|PL|CE")) %>%
+pls_loadings_as_df <- function(.model) {
+    model <- unclass(pls::loadings(.model)) %>%
+        as_tibble(rownames = "xvariables") %>%
+        tibble::set_tidy_names(syntactic = TRUE) %>%
+        rename_at(vars(contains("Comp.")), funs(stringr::str_replace(., "Comp\\.", "C"))) %>%
         mutate(
-            max_loading = max(loadings),
-            min_loading = min(loadings),
-            large_loadings = !between(loadings, -0.2, 0.2),
-            xvariables = ifelse(large_loadings, xvariables, NA)
+            xvariables = PROMISE.misc::renaming_fa(xvariables) %>%
+                stringr::str_replace("pct_", ""),
+            Fraction = extract_fraction(xvariables),
+            TotalExplVar = pls::explvar(.model) %>%
+                sum() %>%
+                round(1) %>%
+                as.character(),
+            Outcome = dimnames(.model$model$Y)[[2]]
         ) %>%
-        ungroup()
+        purrr::modify(~ {attributes(.x)$explvar <- NULL; .x})
+
+    attr(model, "explvar") <- pls::explvar(.model)
+    model
 }
 
 scores_as_df <- function(model) {
@@ -62,19 +75,28 @@ scores_as_df <- function(model) {
     bind_cols(.data, .scores)
 }
 
+# Utils -------------------------------------------------------------------
+
+append_large_loadings <- function(.loadings) {
+    .loadings %>%
+        mutate(xvariables = renaming_fats(xvariables)) %>%
+        gather(Components, Loadings, matches("^C\\d$")) %>%
+        mutate(Loadings = as.numeric(Loadings),
+               Components = forcats::fct_rev(Components)) %>%
+        group_by(Components) %>%
+        mutate(
+            MaxLoading = max(Loadings),
+            MinLoading = min(Loadings),
+            LargeLoadings = !between(Loadings, -0.2, 0.2),
+            FA = if_else(LargeLoadings, xvariables, NA_character_)
+        ) %>%
+        ungroup()
+}
+
 calc_radius <- function(x, y) {
     sqrt(x ^ 2 + y ^ 2)
 }
 
-large_contributors <- function(.model) {
-    expl_var_50 <- sqrt(1 / 2)
-    .model %>%
-        model.matrix() %>%
-        cor(pls::scores(.model)[, 1:2, drop = FALSE]) %>%
-        as_tibble(rownames = "fattyacid") %>%
-        rename_all(funs(stringr::str_replace(., " ", ""))) %>%
-        mutate(fattyacid = PROMISE.misc::renaming_fa(fattyacid) %>%
-                   stringr::str_replace("pct_", "")) %>%
-        filter(calc_radius(Comp1, Comp2) >= expl_var_50)
-
+extract_fraction <- function(x) {
+    stringr::str_sub(x, 1L, 2L)
 }
