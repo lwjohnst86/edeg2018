@@ -27,7 +27,7 @@ knitr::opts_chunk$set(echo = FALSE)
   **Specific clusters of fatty acids (FA) across multiple serum lipid fractions underlie pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**
     </h3></td>
     <td rowspan="2">
-    <!--<img src="resources/logo.png" style="width:128px"></img>-->
+    <img src="resources/PROMISE-logo.png" style="width:128px"></img>
     </td>
 </tr>
 <tr>
@@ -192,7 +192,9 @@ risk.
 | Luke W. Johnston, MSc, PhD
 | Email: lwjohnst@ph.au.dk
 | GitHub: https://github.com/lwjohnst86
-| DOI for code and poster: {{DOI, maybe QC code?}}
+| DOI for:
+| - Code:
+| - Poster: 
 | ORCID: <a href="https://orcid.org/0000-0003-4169-2616" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">orcid.org/0000-0003-4169-2616</a>
 
 #### References {.small}
