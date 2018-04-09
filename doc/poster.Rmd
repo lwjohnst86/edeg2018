@@ -14,7 +14,6 @@ devtools::load_all()
 library(pls)
 library(dplyr)
 library(ggplot2)
-library(ggepi)
 library(patchwork)
 knitr::opts_chunk$set(echo = FALSE)
 ```
@@ -66,14 +65,15 @@ identify underlying clusters in the FA composition, with FA from all lipid
 fractions included as the predictor variables and ISI or ISSI-2 as the response
 variables, in two separate PLS models.
 
-{{include DOI to code.}}
+{{include DOI to repo/code.}}
+{{include DOI to poster html.}}
 
 ### 
 
 ```{r inline}
 # Models
-fit_isi <- pls_model(project_data, outcome = "lISI", ncomp = 4) 
-fit_issi2 <- pls_model(project_data, outcome = "lISSI2", ncomp = 4) 
+fit_isi <- analyze_pls(project_data, .yvar = "lISI", .xvar = fa_pct) 
+fit_issi2 <- analyze_pls(project_data, .yvar = "lISSI2", .xvar = fa_pct) 
 
 # Explained Variance
 # ISI:
