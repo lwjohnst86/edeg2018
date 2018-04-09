@@ -59,30 +59,25 @@ estrange <- analyze_gee_pls() %>%
     summarize(estimate = paste(estimate, collapse = "-"))
 ```
 
-###
+### {data-height=35}
 
 <table style="width:100%">
-<tr>
-    <td><h4>
-  **Specific clusters of fatty acids (FA) across multiple serum lipid fractions underlie pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**
-    </h4></td>
-    <td rowspan="2">
-    <img src="resources/PROMISE-logo-small.jpg" style="width:64px"></img>
-    </td>
+<tr><td><h4>
+**Specific clusters of fatty acids (FA) across multiple serum lipid fractions underlie pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**
+</h4></td>
+<!-- <td rowspan="2"> -->
+<!-- <img src="resources/PROMISE-logo-small.jpg" style="width:64px"></img> -->
+<!-- </td> -->
 </tr>
-<tr>
-    <td>
-    **Luke W. Johnston^1^, Zhen Liu^2^, Ravi Retnakaran^2^, Stewart B. Harris^2^, Richard P. Bazinet^2^, Anthony J. Hanley^2^**
-    </td>
-</tr>
-<tr>
-    <td>
-    *^1^ Aarhus University, Aarhus, Denmark; ^2^ University of Toronto, Toronto, Canada*
-    </td>
-</tr>
+<tr><td>
+**Luke W. Johnston^1^, Zhen Liu^2^, Ravi Retnakaran^2^, Stewart B. Harris^2^, Richard P. Bazinet^2^, Anthony J. Hanley^2^**
+</td></tr>
+<tr><td>
+*^1^ Aarhus University, Aarhus, Denmark; ^2^ University of Toronto, Toronto, Canada*
+</td></tr>
 </table> 
 
-### {.small}
+### {data-height=65 .small}
 
 **Aim**: To identify specific clusters in the composition of FA across multiple
 lipid fractions and determine their association with insulin sensitivity (IS)
