@@ -93,22 +93,21 @@ squares (PLS) was used to identify underlying clusters in the FA composition,
 with FA from all lipid fractions included as the predictor variables and ISI or
 ISSI-2 as the response variables, in two separate PLS models.
 
-**Results**: The first two PLS components (C1 and C2) were extracted from the
-two models. These components explained `r Y_explvar_issi2`-`r Y_explvar_isi`% of
+**Results**: The first two PLS components (C1 and C2) extracted 
+from the two models explained `r Y_explvar_issi2`-`r Y_explvar_isi`% of
 the variance in the responses and `r X_explvar_issi2`-`r X_explvar_isi`% in the
-FA. TGFA and NEFA had strong negative loadings on C1 and C2, respectively
-(Figure A), although only a subset of TGFA strongly correlated with the
-component scores (i.e. `r tg_contrib`; Figure B). A lower PLS score (indicating
-higher mol% of these specific TGFA) associated with `r estrange$estimate[1]`%
-lower ISI and `r estrange$estimate[2]`% lower ISSI-2.
+FA. TGFA and NEFA had strong negative loadings on C1 and C2, respectively.
+Only a subset of TGFA strongly correlated with the component scores (i.e. 
+`r tg_contrib`). A lower PLS score (indicating higher mol% of these specific TGFA)
+associated with `r estrange$estimate[1]`% lower ISI and `r estrange$estimate[2]`% 
+lower ISSI-2.
 
-**Conclusions**: We identified a cluster of TGFA that had strong negative
-associations with IS and beta-cell function. These TGFA (e.g. 16:1n-7) are
-reported to be markers of de novo lipogenesis from simple carbohydrates and to
-exhibit lipotoxic effects. Our results suggest that only a subset of FA from a
-broad spectrum of serum FA may underlie the association between lipids and
-glucose dysregulation, and that these lipids are possible mediators between the
-reported associations of carbohydrate intake and diabetes risk.
+**Conclusions**: A cluster of TGFA had strong negative associations with the
+outcomes. These TGFA (e.g. 16:1n-7) are reported as markers of de novo
+lipogenesis from carbohydrates and can be lipotoxic. Our results suggest only a
+subset of FA in serum may underlie the association between lipids and glucose
+dysregulation, and that these lipids are possible mediators between the
+associations of carbohydrate intake and diabetes risk.
 
 ## Second column {data-width=70}
 
