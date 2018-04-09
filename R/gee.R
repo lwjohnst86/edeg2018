@@ -1,12 +1,13 @@
 prep_gee_data <- function(outcome) {
     .pls_results <- project_data %>%
-        pls_model(outcome = outcome, ncomp = 2) %>%
+        analyze_pls(.yvar = outcome, .xvar = fa_pct, .ncomp = 2) %>%
         scores_as_df() %>%
         select_at(vars(-matches("pct_"))) %>%
         mutate(SID = project_data %>%
                    select_at(c("SID", outcome)) %>%
                    na.omit() %>%
-                   .[["SID"]])
+                   .[["SID"]],
+               VN = 0)
 
     full_join(over_time_data, .pls_results) %>%
         fill(Comp1, Comp2)
@@ -15,11 +16,13 @@ prep_gee_data <- function(outcome) {
 analyze_gee_pls <- function() {
 
     isi <- prep_gee_data(outcome = "lISI") %>%
+        arrange(SID, VN) %>%
         design('gee') %>%
         add_settings(family = stats::gaussian(),
                             corstr = 'ar1', cluster.id = 'SID') %>%
         add_variables('yvars', "lISI") %>%
         add_variables('xvars', c("Comp1", "Comp2")) %>%
+        add_variables("covariates", "YearsFromBaseline") %>%
         construct() %>%
         scrub() %>%
         polish_filter("Term", 'term') %>%
@@ -27,6 +30,7 @@ analyze_gee_pls <- function() {
         mutate_at(vars(estimate, conf.low, conf.high), funs((exp(.) - 1) * 100))
 
     issi2 <- prep_gee_data(outcome = "lISSI2") %>%
+        arrange(SID, VN) %>%
         design('gee') %>%
         add_settings(family = stats::gaussian(),
                             corstr = 'ar1', cluster.id = 'SID') %>%
