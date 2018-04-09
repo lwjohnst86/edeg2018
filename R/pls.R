@@ -1,7 +1,7 @@
 
 # Analyze PLS -------------------------------------------------------------
 
-analyze_pls <- function(.data, .yvar, .xvar, .ncomp = 4, .cv = FALSE) {
+analyze_pls <- function(.data, .yvar, .xvar, .ncomp = 2, .cv = FALSE) {
     .data %>%
         design("pls") %>%
         add_settings(ncomp = .ncomp,
