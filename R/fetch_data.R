@@ -40,7 +40,7 @@ fetch_data <- function() {
 
     # Longitudinal data for outcomes
     over_time_data <- PROMISE.data::PROMISE %>%
-        filter(VN %in% c(1, 3, 6)) %>%
+        filter(VN %in% c(0, 3, 6)) %>%
         arrange(SID, VN) %>%
         select(SID, VN, MonthsFromBaseline, ISI, ISSI2) %>%
         mutate(YearsFromBaseline = MonthsFromBaseline / 12)
