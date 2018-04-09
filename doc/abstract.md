@@ -96,24 +96,26 @@ between lipids and glucose dysregulation, and that these lipids are possible
 mediators between the reported associations of carbohydrate intake and diabetes
 risk.
 
-```{r, fig.height=3, fig.width=7, dev="png", dpi=180}
+```{r, fig.height=8, fig.width=5.25, dev="png", dpi=180}
 # Figure
 library(patchwork)
 library(ggplot2)
 fig_loadings <- pls_model(project_data, "lISI", 2) %>% 
     plot_loadings() +
-    ggtitle(paste0("A: Loadings of the FA on the components ", 
-                   "for ISI. Larger loadings\nindicate the variable ",
+    ggtitle(paste0("A: Loadings of the fatty acids on the components ", 
+                   "for ISI. Larger\nloadings indicate the variable ",
                    "contributes more to the component.")) +
-    theme(title = element_text(size = 6))
+    theme(title = element_text(size = 9))
 
 fig_corr <- plot_corr_comps("lISI") +
-    ggtitle(paste0("B: Correlations of component scores with FA\nvalues for ISI.", 
-            " FA between the two circles ",
-            "indicate\na strong correlation to the scores.")) +
-    theme(title = element_text(size = 6))
+    ggtitle(paste0("B: Correlations of component scores with fatty acid values for ISI.\n", 
+            "Fatty acids between the solid and dotted circles ",
+            "indicate a strong\ncorrelation to the component scores.")) +
+    theme(title = element_text(size = 9))
 
-fig_loadings + fig_corr + plot_layout(ncol = 2, widths = c(3, 2))
+p <- fig_loadings + fig_corr + plot_layout(ncol = 1, heights = c(2, 4))
+ggsave("pls-results-fattyacids.pdf", p, device = "pdf", height = 8, width = 5.25)
+ggsave("pls-results-fattyacids.png", p, device = "png", height = 8, width = 5.25, dpi = "print")
 ```
 
 
