@@ -59,57 +59,48 @@ estrange <- analyze_gee_pls() %>%
     summarize(estimate = paste(estimate, collapse = "-"))
 ```
 
-### {data-height=35}
+### {data-height=30 .small}
 
-<table style="width:100%">
-<tr><td><h4>
-**Specific clusters of fatty acids (FA) across multiple serum lipid fractions underlie pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**
-</h4></td>
-<!-- <td rowspan="2"> -->
-<!-- <img src="resources/PROMISE-logo-small.jpg" style="width:64px"></img> -->
-<!-- </td> -->
-</tr>
-<tr><td>
-**Luke W. Johnston^1^, Zhen Liu^2^, Ravi Retnakaran^2^, Stewart B. Harris^2^, Richard P. Bazinet^2^, Anthony J. Hanley^2^**
-</td></tr>
-<tr><td>
-*^1^ Aarhus University, Aarhus, Denmark; ^2^ University of Toronto, Toronto, Canada*
-</td></tr>
-</table> 
+<h4>**Specific clusters of fatty acids (FA) across multiple serum lipid fractions underlie pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**</h4>
+| **Luke W. Johnston^1^, Zhen Liu^2^, Ravi Retnakaran^2^, Stewart B. Harris^2^, Richard P. Bazinet^2^, Anthony J. Hanley^2^**
+| *^1^ Aarhus University, Aarhus, Denmark; ^2^ University of Toronto, Toronto, Canada*
 
-### {data-height=65 .small}
+### {data-height=80 .small}
 
 **Aim**: To identify specific clusters in the composition of FA across multiple
-lipid fractions and determine their association with insulin sensitivity (IS)
-and beta-cell function.
+lipid fractions by insulin sensitivity and beta-cell function.
 
-**Methods and analysis**: Adults at risk for diabetes (n=477) had blood drawn at
-fasting and during an OGTT. FA from triacylglycerol (TGFA), phospholipid (PL),
-cholesteryl ester (CE), and non-esterified (NEFA) fractions were quantified from
-fasting samples and the mole percent (mol%) of total lipids was calculated.
-Outcome measures included the Matsuda index (ISI) for IS and the Insulin
-Secretion-Sensitivity Index-2 (ISSI-2) for beta-cell function. Partial least
-squares (PLS) was used to identify underlying clusters in the FA composition,
-with FA from all lipid fractions included as the predictor variables and ISI or
-ISSI-2 as the response variables, in two separate PLS models.
+**Methods and analysis**: Adults at risk for diabetes (n=477). FA (mol%) from
+triacylglycerol (TGFA), phospholipid (PL), cholesteryl ester (CE), and
+non-esterified (NEFA) fractions. Outcomes were Matsuda index (ISI) and the
+Insulin Secretion-Sensitivity Index-2 (ISSI-2). Partial least squares (PLS) with
+all FA as predictors and outcomes as response
 
-**Results**: The first two PLS components (C1 and C2) extracted 
-from the two models explained `r Y_explvar_issi2`-`r Y_explvar_isi`% of
-the variance in the responses and `r X_explvar_issi2`-`r X_explvar_isi`% in the
-FA. TGFA and NEFA had strong negative loadings on C1 and C2, respectively.
-Only a subset of TGFA strongly correlated with the component scores (i.e. 
-`r tg_contrib`). A lower PLS score (indicating higher mol% of these specific TGFA)
-associated with `r estrange$estimate[1]`% lower ISI and `r estrange$estimate[2]`% 
-lower ISSI-2.
+**Results**: First two PLS components (C1 and C2) explained `r Y_explvar_issi2`-
+`r Y_explvar_isi`% of variance in outcomes and `r X_explvar_issi2`-
+`r X_explvar_isi`% in FA. TGFA and NEFA had strong negative loadings on C1 and
+C2, respectively. Only some TGFA strongly correlated with PLS scores (i.e. `r tg_contrib`).
+Lower PLS score (higher mol% of above TGFA) associated with `r estrange$estimate[1]`% 
+lower ISI and `r estrange$estimate[2]`% lower ISSI-2.
 
-**Conclusions**: A cluster of TGFA had strong negative associations with the
-outcomes. These TGFA (e.g. 16:1n-7) are reported as markers of de novo
-lipogenesis from carbohydrates and can be lipotoxic. Our results suggest only a
-subset of FA in serum may underlie the association between lipids and glucose
-dysregulation, and that these lipids are possible mediators between the
-associations of carbohydrate intake and diabetes risk.
+**Conclusions**: A subset of TGFA strongly and negatively associated with
+outcomes and that they are reported as markers of *de novo lipogenesis* from
+carbohydrates. Suggests **only some FA** in serum may underlie association
+between lipids and glucose dysregulation. These FA may also be **mediators**
+between observed association with carbohydrates and diabetes risk.
 
-## Second column {data-width=70}
+<table style="width:100%">
+<tr><td width="70%">
+| **Contact**: 
+| Luke W. Johnston, MSc, PhD (lwjohnst@ph.au.dk)
+| ORCID: <a href="https://orcid.org/0000-0003-4169-2616" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">orcid.org/0000-0003-4169-2616</a>
+| Code: 
+</td><td>
+<img src="resources/au-logo.png" style="width:128px"></img> 
+</td></tr>
+</table>
+
+## Second column {data-width=67}
 
 <!--
 ### Correlation heatmap {data-height=30}
