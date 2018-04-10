@@ -86,13 +86,14 @@ between lipids and glucose dysregulation. These FA may also be **mediators**
 between observed association with carbohydrates and diabetes risk.
 
 <table style="width:100%">
-<tr><td width="70%">
+<tr><td width="60%">
 | **Contact**: 
-| Luke W. Johnston, MSc, PhD (lwjohnst@ph.au.dk)
-| ORCID: <a href="https://orcid.org/0000-0003-4169-2616" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">orcid.org/0000-0003-4169-2616</a>
+| Luke W. Johnston, MSc, PhD
+| Email: lwjohnst@ph.au.dk
+| ORCID: <a href="https://orcid.org/0000-0003-4169-2616" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0003-4169-2616</a>
 | Code: 
-</td><td>
-<img src="resources/au-logo.png" style="width:128px"></img> 
+</td><td width="40%">
+<img src="resources/au-logo.png" style="width:110px"></img> 
 </td></tr>
 </table>
 
