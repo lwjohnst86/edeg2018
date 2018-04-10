@@ -24,7 +24,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 fig_num <- captioner("Figure")
 # fig_heatmap <- fig_num("heatmap", "Heatmap of the Pearson correlations between the individual FA by lipid fraction and the two outcomes. A darker orange indicates a higher correlation and a darker blue indicates a lower correlation.")
-fig_pls <- fig_num("pls", "(A, C) Loadings (coefficients) of the FA on the components for ISI (A) and ISSI-2 (C). Large high or low loadings indicate the variable contributes more to component; a positive or negative loading represents a higher or lower, respectively, ISI or ISSI-2. (B, D) Correlations of component scores with FA values for ISI (B) and ISSI-2 (D). FA between the two circles indicate strong correlation to the scores. A FA with a higher correlation indicates that a higher FA mol% has a higher PLS score, and thus has a higher ISI or ISSI-2. A lower correlation indicates that a higher FA mol% has a lower PLS score, and thus has a lower ISI or ISSI-2.")
+fig_pls <- fig_num("pls", "**(A, C)** Loadings (coefficients) of the FA on the components for ISI (A) and ISSI-2 (C). Large high or low loadings indicate the variable contributes more to the component; a positive or negative loading represents a higher or lower, respectively, ISI or ISSI-2. **(B, D)** Correlations of component scores with FA values for ISI (B) and ISSI-2 (D). FA between the two circles indicate strong correlation to the scores. A FA with a higher correlation indicates that a higher FA mol% has a higher PLS score, and thus has a higher ISI or ISSI-2. A lower correlation indicates that a higher FA mol% has a lower PLS score, and thus has a lower ISI or ISSI-2.")
 ```
 
 ```{r inline}
