@@ -6,12 +6,13 @@ plot_loadings <- function(.data) {
         geom_point(aes(alpha = LargeLoadings, colour = Fraction)) +
         ggrepel::geom_text_repel(
             aes(label = FA),
-            size = 2,
+            size = 2.5,
             box.padding = 0.4,
             segment.alpha = 0.3,
             colour = "black"
         ) +
-        viridis::scale_color_viridis(discrete = TRUE) +
+        # viridis::scale_color_viridis(discrete = TRUE) +
+        scale_color_brewer(type = "div", palette = "PuOr") +
         labs(y = paste0("Components (", unique(.data$TotalExplVar), "% total \nexplained variance)"),
              x = "Loading (coefficient) values for the component") +
         scale_alpha_discrete(guide = "none") +
@@ -47,12 +48,13 @@ plot_corr_comps <- function(.data) {
         geom_corr_circle(size = 1) +
         ggrepel::geom_text_repel(
             aes(label = LargeLoadingsXvar),
-            size = 2,
+            size = 2.5,
             box.padding = 0.4,
             segment.alpha = 0.3,
             colour = "black"
         ) +
-        viridis::scale_color_viridis(discrete = TRUE) +
+        # viridis::scale_color_viridis(discrete = TRUE) +
+        scale_color_brewer(type = "div", palette = "PuOr") +
         coord_cartesian(ylim = c(-1, 1), xlim = c(-1, 1)) +
         labs(
             x = paste0('C1 (', round(expl_var[1], 1), '% explained variance)'),
