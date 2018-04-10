@@ -7,11 +7,7 @@ output:
         orientation: columns
 ---
 
-## First column {data-width=30}
-
-```{r, eval=FALSE, include=FALSE}
-postr::render_poster_image("poster.html", aspect_ratio = 1 / sqrt(2), poster_width = 420)
-```
+## First column {data-width=33}
 
 ```{r setup, message=FALSE, echo=FALSE}
 devtools::load_all()
@@ -143,21 +139,15 @@ fc_issi2 <- pls_corr_pct$lISSI2 %>%
 #     plot_corr_comps()
 ```
 
-```{r fig_pls, fig.height=7, fig.width=10, dpi=150, fig.cap=fig_pls}
+```{r fig_pls, fig.height=8, fig.width=10, dpi=150, fig.cap=fig_pls}
 fl_isi + ggtitle("ISI") + theme(legend.position = "none") + 
     fc_isi + ggtitle("ISI") + theme(legend.position = "none") + 
     fl_issi2 + ggtitle("ISSI-2") +
     fc_issi2 + ggtitle("ISSI-2") +
-    plot_layout(ncol = 2, byrow = FALSE, heights = c(1, 2), widths = c(1, 1.05)) + 
+    plot_layout(ncol = 2, byrow = FALSE, heights = c(1.5, 2), widths = c(1, 1.05)) + 
     plot_annotation(tag_levels = "A", title = "Fatty acid (mol%) clusters by insulin sensitivity (A, B) and beta-cell function (C, D)")
 ```
 
-### Contact information {data-height=10 .smaller}
-
-| Luke W. Johnston, MSc, PhD
-| Email: lwjohnst@ph.au.dk
-| GitHub: https://github.com/lwjohnst86
-| DOI for:
-| - Code:
-| - Poster: 
-| ORCID: <a href="https://orcid.org/0000-0003-4169-2616" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">orcid.org/0000-0003-4169-2616</a>
+```{r create_poster, eval=FALSE, include=FALSE}
+postr::render_poster_image("poster.html", aspect_ratio = 1 / sqrt(2), poster_width = 420)
+```
