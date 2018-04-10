@@ -119,7 +119,7 @@ plot_heatmap(corr_pct) +
 ```
 -->
 
-### PLS results for insulin sensitivity (ISI) and beta-cell function (ISSI-2)
+### **PLS results for insulin sensitivity (ISI) and beta-cell function (ISSI-2)**
 
 ```{r pls}
 fl_isi <- pls_loadings_pct$lISI %>% 
