@@ -1,0 +1,154 @@
+---
+title: "European Diabetes Epidemiology Group Conference, 2018"
+output: 
+    postr::flex_dashboard_poster:
+        render_print: false
+        theme: yeti
+        orientation: columns
+---
+
+## First column {data-width=33}
+
+```{r setup, message=FALSE, echo=FALSE}
+devtools::load_all()
+library(pls)
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+library(captioner)
+knitr::opts_chunk$set(echo = FALSE)
+
+fig_num <- captioner("Figure")
+# fig_heatmap <- fig_num("heatmap", "Heatmap of the Pearson correlations between the individual FA by lipid fraction and the two outcomes. A darker orange indicates a higher correlation and a darker blue indicates a lower correlation.")
+fig_pls <- fig_num("pls", "**(A, C)** Loadings (coefficients) of the FA on the components for ISI (A) and ISSI-2 (C). Large high or low loadings indicate the variable contributes more to the component; a positive or negative loading represents a higher or lower, respectively, ISI or ISSI-2. **(B, D)** Correlations of component scores with FA values for ISI (B) and ISSI-2 (D). FA between the two circles indicate strong correlation to the scores. A FA with a higher correlation indicates that a higher FA mol% has a higher PLS score, and thus has a higher ISI or ISSI-2. A lower correlation indicates that a higher FA mol% has a lower PLS score, and thus has a lower ISI or ISSI-2.")
+```
+
+```{r inline}
+# Models
+fit_isi <- analyze_pls(project_data, .yvar = "lISI", .xvar = fa_pct) 
+fit_issi2 <- analyze_pls(project_data, .yvar = "lISSI2", .xvar = fa_pct) 
+
+# Explained Variance
+# ISI:
+Y_explvar_isi <- (100 * drop(pls::R2(fit_isi, estimate = "train", intercept = FALSE)$val))[2] %>% 
+    round(1) %>% as.character()
+X_explvar_isi <- explvar(fit_isi)[1:2] %>% 
+    sum() %>% round(1) %>% as.character()
+    
+# ISSI-2
+Y_explvar_issi2 <- (100 * drop(pls::R2(fit_issi2, estimate = "train", intercept = FALSE)$val))[2] %>% 
+    round(1) %>% as.character()
+X_explvar_issi2 <- explvar(fit_issi2)[1:2] %>% 
+    sum() %>% round(1) %>% as.character()
+
+# Largest contributors
+lc_isi <- large_contributors(fit_isi)$fattyacid %>% 
+    grep("TG", ., value = TRUE)
+lc_issi2 <- large_contributors(fit_issi2)$fattyacid %>% 
+    grep("TG", ., value = TRUE) 
+tg_contrib <- intersect(lc_isi, lc_issi2) %>% 
+    stringr::str_replace_all(" ", "") %>% 
+    paste(collapse = ", ")
+estrange <- analyze_gee_pls() %>% 
+    group_by(Yterms) %>% 
+    mutate(estimate = round(estimate, 1)) %>% 
+    summarize(estimate = paste(estimate, collapse = "-"))
+```
+
+### {data-height=30 .small}
+
+<h4>**Specific clusters of fatty acids (FA) across multiple serum lipid fractions underlie pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**</h4>
+| **Luke W. Johnston^1^, Zhen Liu^2^, Ravi Retnakaran^2^, Stewart B. Harris^2^, Richard P. Bazinet^2^, Anthony J. Hanley^2^**
+| *^1^ Aarhus University, Aarhus, Denmark; ^2^ University of Toronto, Toronto, Canada*
+
+### {data-height=80 .small}
+
+**Aim**: To identify specific clusters in the composition of FA across multiple
+lipid fractions by insulin sensitivity and beta-cell function.
+
+**Methods and analysis**: Adults at risk for diabetes (n=477). FA (mol%) from
+triacylglycerol (TGFA), phospholipid (PL), cholesteryl ester (CE), and
+non-esterified (NEFA) fractions. Outcomes were Matsuda index (ISI) and the
+Insulin Secretion-Sensitivity Index-2 (ISSI-2). Partial least squares (PLS) used
+with all FA as predictors and outcomes as response.
+
+**Results**: The first two PLS components (C1 and C2) explained `r Y_explvar_issi2`-
+`r Y_explvar_isi`% of variance in the outcomes and `r X_explvar_issi2`-
+`r X_explvar_isi`% in the FA. TGFA and NEFA had strong negative loadings on C1 and
+C2, respectively. A subset of TGFA strongly correlated with PLS scores (i.e. `r tg_contrib`).
+Lower C1 and C2 scores (higher mol% of above TGFA) associated with `r estrange$estimate[1]`% 
+lower ISI and `r estrange$estimate[2]`% lower ISSI-2.
+
+**Conclusions**: A subset of TGFA strongly and negatively associated with
+outcomes; these have been reported as markers of *de novo lipogenesis* from
+carbohydrates. Results suggest **only some FA** in serum may underlie association
+between lipids and glucose dysregulation. These FA may also be **mediators**
+between the observed association with carbohydrates and diabetes risk.
+
+<table style="width:100%">
+<tr><td width="62%">
+**Contact**:  
+Luke W. Johnston, MSc, PhD  
+Email: lwjohnst@ph.au.dk  
+ORCID: <a href="https://orcid.org/0000-0003-4169-2616" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0003-4169-2616</a>  
+Code: <a href="https://github.com/lwjohnst86/edeg2018">github.com/lwjohnst86/edeg2018</a>  
+</td><td width="38%">
+<img src="resources/au-logo.png" style="width:110px"></img> 
+</td></tr>
+</table>
+
+## Second column {data-width=67}
+
+<!--
+### Correlation heatmap {data-height=30}
+
+```{r fig_heatmap, fig.height=5, fig.width=8, dpi=300, fig.cap=fig_heatmap, eval=FALSE}
+# Correlation heatmap: 2 x 2 facets with lipid fractions. FA by outcomes.
+plot_heatmap(corr_pct) +
+    facet_grid(~ Fraction, switch = "x") +
+    theme(strip.placement = "outside",
+          panel.border = element_rect(fill = NA, colour = "grey80")) +
+    ylab("Fatty acids (mol% of total)")
+# plot_heatmap(corr_conc) +
+#     facet_grid(~ Fraction, switch = "x") +
+#     theme(strip.placement = "outside",
+#           panel.border = element_rect(fill = NA, colour = "grey80"))
+```
+-->
+
+### **PLS results for insulin sensitivity (ISI) and beta-cell function (ISSI-2)**
+
+```{r pls}
+fl_isi <- pls_loadings_pct$lISI %>% 
+    plot_loadings()
+# pls_loadings_conc$lISI %>% 
+#     plot_loadings()
+
+fc_isi <- pls_corr_pct$lISI %>% 
+    plot_corr_comps()
+# pls_corr_conc$lISI %>% 
+#     plot_corr_comps()
+
+fl_issi2 <- pls_loadings_pct$lISSI2 %>% 
+    plot_loadings()
+# pls_loadings_conc$lISI %>% 
+#     plot_loadings()
+
+fc_issi2 <- pls_corr_pct$lISSI2 %>% 
+    plot_corr_comps()
+# pls_corr_conc$lISI %>% 
+#     plot_corr_comps()
+```
+
+```{r fig_pls, fig.height=8, fig.width=10, dpi=150, fig.cap=fig_pls}
+fl_isi + ggtitle("ISI") + theme(legend.position = "none") + 
+    fc_isi + ggtitle("ISI") + theme(legend.position = "none") + 
+    fl_issi2 + ggtitle("ISSI-2") +
+    fc_issi2 + ggtitle("ISSI-2") +
+    plot_layout(ncol = 2, byrow = FALSE, heights = c(1.5, 2), widths = c(1, 1.05)) + 
+    plot_annotation(tag_levels = "A", title = "Fatty acid (mol%) clusters by insulin sensitivity (A, B) and beta-cell function (C, D)")
+```
+
+```{r create_poster, eval=FALSE, include=FALSE}
+postr::render_poster_image("poster.html", aspect_ratio = 1 / sqrt(2), poster_width = 420)
+```
