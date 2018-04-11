@@ -69,30 +69,30 @@ lipid fractions by insulin sensitivity and beta-cell function.
 **Methods and analysis**: Adults at risk for diabetes (n=477). FA (mol%) from
 triacylglycerol (TGFA), phospholipid (PL), cholesteryl ester (CE), and
 non-esterified (NEFA) fractions. Outcomes were Matsuda index (ISI) and the
-Insulin Secretion-Sensitivity Index-2 (ISSI-2). Partial least squares (PLS) with
-all FA as predictors and outcomes as response
+Insulin Secretion-Sensitivity Index-2 (ISSI-2). Partial least squares (PLS) used
+with all FA as predictors and outcomes as response.
 
-**Results**: First two PLS components (C1 and C2) explained `r Y_explvar_issi2`-
-`r Y_explvar_isi`% of variance in outcomes and `r X_explvar_issi2`-
-`r X_explvar_isi`% in FA. TGFA and NEFA had strong negative loadings on C1 and
-C2, respectively. Only some TGFA strongly correlated with PLS scores (i.e. `r tg_contrib`).
-Lower PLS score (higher mol% of above TGFA) associated with `r estrange$estimate[1]`% 
+**Results**: The first two PLS components (C1 and C2) explained `r Y_explvar_issi2`-
+`r Y_explvar_isi`% of variance in the outcomes and `r X_explvar_issi2`-
+`r X_explvar_isi`% in the FA. TGFA and NEFA had strong negative loadings on C1 and
+C2, respectively. A subset of TGFA strongly correlated with PLS scores (i.e. `r tg_contrib`).
+Lower C1 and C2 scores (higher mol% of above TGFA) associated with `r estrange$estimate[1]`% 
 lower ISI and `r estrange$estimate[2]`% lower ISSI-2.
 
 **Conclusions**: A subset of TGFA strongly and negatively associated with
-outcomes and that they are reported as markers of *de novo lipogenesis* from
-carbohydrates. Suggests **only some FA** in serum may underlie association
+outcomes; these have been reported as markers of *de novo lipogenesis* from
+carbohydrates. Results suggest **only some FA** in serum may underlie association
 between lipids and glucose dysregulation. These FA may also be **mediators**
-between observed association with carbohydrates and diabetes risk.
+between the observed association with carbohydrates and diabetes risk.
 
 <table style="width:100%">
-<tr><td width="60%">
-| **Contact**: 
-| Luke W. Johnston, MSc, PhD
-| Email: lwjohnst@ph.au.dk
-| ORCID: <a href="https://orcid.org/0000-0003-4169-2616" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0003-4169-2616</a>
-| Code: 
-</td><td width="40%">
+<tr><td width="62%">
+**Contact**:  
+Luke W. Johnston, MSc, PhD  
+Email: lwjohnst@ph.au.dk  
+ORCID: <a href="https://orcid.org/0000-0003-4169-2616" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0003-4169-2616</a>  
+Code: <a href="https://github.com/lwjohnst86/edeg2018">github.com/lwjohnst86/edeg2018</a>  
+</td><td width="38%">
 <img src="resources/au-logo.png" style="width:110px"></img> 
 </td></tr>
 </table>
