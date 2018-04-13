@@ -84,8 +84,7 @@ lower ISI and `r estrange$estimate[2]`% lower ISSI-2.
 **Conclusions**: A subset of TGFA strongly and negatively associated with
 outcomes; these have been reported as markers of *de novo lipogenesis* from
 carbohydrates. Results suggest **only some FA** in serum may underlie association
-between lipids and glucose dysregulation. These FA may also be **mediators**
-between the observed association with carbohydrates and diabetes risk.
+between lipids and glucose dysregulation.
 
 <table style="width:100%">
 <tr><td width="62%">
