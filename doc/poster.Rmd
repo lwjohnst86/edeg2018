@@ -16,7 +16,7 @@ library(dplyr)
 library(ggplot2)
 library(patchwork)
 library(captioner)
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, dpi = 300)
 
 fig_num <- captioner("Figure")
 # fig_heatmap <- fig_num("heatmap", "Heatmap of the Pearson correlations between the individual FA by lipid fraction and the two outcomes. A darker orange indicates a higher correlation and a darker blue indicates a lower correlation.")
