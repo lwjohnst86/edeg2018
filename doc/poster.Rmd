@@ -55,16 +55,18 @@ estrange <- analyze_gee_pls() %>%
     summarize(estimate = paste(estimate, collapse = "-"))
 ```
 
-### {data-height=30 .small}
+### {data-height=29.5 .small}
 
 <h4>**Specific clusters of fatty acids (FA) across multiple serum lipid fractions underlie pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**</h4>
 | **Luke W. Johnston^1^, Zhen Liu^2^, Ravi Retnakaran^2^, Stewart B. Harris^2^, Richard P. Bazinet^2^, Anthony J. Hanley^2^**
 | *^1^ Aarhus University, Aarhus, Denmark; ^2^ University of Toronto, Toronto, Canada*
 
-### {data-height=80 .small}
+### {data-height=80.5 .small}
 
-**Aim**: To identify specific clusters in the composition of FA across multiple
-lipid fractions by insulin sensitivity and beta-cell function.
+**Rationale**: While FA have diverse physiological roles, most studies tend to group
+or sum them together (e.g. total TAG). Our *aim* was to identify potential clusters
+in the composition of FA across multiple lipid fractions by insulin sensitivity
+and beta-cell function.
 
 **Methods and analysis**: Adults at risk for diabetes (n=477). FA (mol%) from
 triacylglycerol (TGFA), phospholipid (PL), cholesteryl ester (CE), and
