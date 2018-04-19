@@ -71,8 +71,8 @@ and beta-cell function.
 **Methods and analysis**: Adults at risk for diabetes (n=477). FA (mol%) from
 triacylglycerol (TGFA), phospholipid (PL), cholesteryl ester (CE), and
 non-esterified (NEFA) fractions. Outcomes were Matsuda index (ISI) and the
-Insulin Secretion-Sensitivity Index-2 (ISSI-2). Partial least squares (PLS) used
-with all FA as predictors and outcomes as response.
+Insulin Secretion-Sensitivity Index-2 (ISSI-2). Cross-sectional analysis using
+partial least squares (PLS) with all FA as predictors and outcomes as response.
 
 **Results**: The first two PLS components (C1 and C2) explained `r Y_explvar_issi2`-
 `r Y_explvar_isi`% of variance in the outcomes and `r X_explvar_issi2`-
