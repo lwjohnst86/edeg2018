@@ -1,6 +1,6 @@
 Package: edeg2018
 Title: Abstract and Poster Analysis Code for EDEG
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: person("Luke", "Johnston", email = "lwjohnst@gmail.com", role = c("aut", "cre"))
 Description: Files for submitting an abstract and creating the poster to EDEG 2018.
 License: MIT + file LICENSE
