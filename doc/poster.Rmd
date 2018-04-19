@@ -152,10 +152,10 @@ fl_isi + ggtitle("ISI") + theme(legend.position = "none") +
 
 ```{r create_poster, eval=FALSE, include=FALSE}
 postr::render_poster_image("poster.html", aspect_ratio = 1 / sqrt(2), poster_width = 420)
-system("convert poster.png -quality 0 poster.jp2")
+#system("convert poster.png -quality 0 poster.jp2")
 # uses pdf 1.3 dimenions around 68 in by 48 in
-system("img2pdf poster.jp2 -o poster.pdf")
+#system("img2pdf poster.jp2 -o poster.pdf")
 # uses pdf 1.4 dimensions around 6.5in by 4.6in
-system("convert poster.png -quality 100 -density 300 poster-2.pdf")
+system("convert poster.png -quality 100 -density 300 poster.pdf")
 # both commands make pdfs that I can't distinguish between
 ```
