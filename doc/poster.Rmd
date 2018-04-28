@@ -16,7 +16,7 @@ library(dplyr)
 library(ggplot2)
 library(patchwork)
 library(captioner)
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, dpi = 300)
 
 fig_num <- captioner("Figure")
 # fig_heatmap <- fig_num("heatmap", "Heatmap of the Pearson correlations between the individual FA by lipid fraction and the two outcomes. A darker orange indicates a higher correlation and a darker blue indicates a lower correlation.")
@@ -55,22 +55,24 @@ estrange <- analyze_gee_pls() %>%
     summarize(estimate = paste(estimate, collapse = "-"))
 ```
 
-### {data-height=30 .small}
+### {data-height=29.5 .small}
 
 <h4>**Specific clusters of fatty acids (FA) across multiple serum lipid fractions underlie pathophysiological features of type 2 diabetes in the Canadian Prospective Metabolism and Islet Cell Evaluation (PROMISE) cohort**</h4>
 | **Luke W. Johnston^1^, Zhen Liu^2^, Ravi Retnakaran^2^, Stewart B. Harris^2^, Richard P. Bazinet^2^, Anthony J. Hanley^2^**
 | *^1^ Aarhus University, Aarhus, Denmark; ^2^ University of Toronto, Toronto, Canada*
 
-### {data-height=80 .small}
+### {data-height=80.5 .small}
 
-**Aim**: To identify specific clusters in the composition of FA across multiple
-lipid fractions by insulin sensitivity and beta-cell function.
+**Rationale**: While FA have diverse physiological roles, most studies tend to group
+or sum them together (e.g. total TAG). Our *aim* was to identify potential clusters
+in the composition of FA across multiple lipid fractions by insulin sensitivity
+and beta-cell function.
 
 **Methods and analysis**: Adults at risk for diabetes (n=477). FA (mol%) from
 triacylglycerol (TGFA), phospholipid (PL), cholesteryl ester (CE), and
 non-esterified (NEFA) fractions. Outcomes were Matsuda index (ISI) and the
-Insulin Secretion-Sensitivity Index-2 (ISSI-2). Partial least squares (PLS) used
-with all FA as predictors and outcomes as response.
+Insulin Secretion-Sensitivity Index-2 (ISSI-2). Cross-sectional analysis using
+partial least squares (PLS) with all FA as predictors and outcomes as response.
 
 **Results**: The first two PLS components (C1 and C2) explained `r Y_explvar_issi2`-
 `r Y_explvar_isi`% of variance in the outcomes and `r X_explvar_issi2`-
@@ -82,8 +84,7 @@ lower ISI and `r estrange$estimate[2]`% lower ISSI-2.
 **Conclusions**: A subset of TGFA strongly and negatively associated with
 outcomes; these have been reported as markers of *de novo lipogenesis* from
 carbohydrates. Results suggest **only some FA** in serum may underlie association
-between lipids and glucose dysregulation. These FA may also be **mediators**
-between the observed association with carbohydrates and diabetes risk.
+between lipids and glucose dysregulation.
 
 <table style="width:100%">
 <tr><td width="62%">
@@ -93,7 +94,8 @@ Email: lwjohnst@ph.au.dk
 ORCID: <a href="https://orcid.org/0000-0003-4169-2616" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0003-4169-2616</a>  
 Code: <a href="https://github.com/lwjohnst86/edeg2018">github.com/lwjohnst86/edeg2018</a>  
 </td><td width="38%">
-<img src="resources/au-logo.png" style="width:110px"></img> 
+<img src="resources/au-logo.png" style="width:110px"></img><br>
+<img src="resources/UT-DNS-logo.jpg" style="width:125px"></img> 
 </td></tr>
 </table>
 
@@ -140,7 +142,7 @@ fc_issi2 <- pls_corr_pct$lISSI2 %>%
 #     plot_corr_comps()
 ```
 
-```{r fig_pls, fig.height=8, fig.width=10, dpi=150, fig.cap=fig_pls}
+```{r fig_pls, fig.height=8, fig.width=10, fig.cap=fig_pls}
 fl_isi + ggtitle("ISI") + theme(legend.position = "none") + 
     fc_isi + ggtitle("ISI") + theme(legend.position = "none") + 
     fl_issi2 + ggtitle("ISSI-2") +
@@ -149,6 +151,3 @@ fl_isi + ggtitle("ISI") + theme(legend.position = "none") +
     plot_annotation(tag_levels = "A", title = "Fatty acid (mol%) clusters by insulin sensitivity (A, B) and beta-cell function (C, D)")
 ```
 
-```{r create_poster, eval=FALSE, include=FALSE}
-postr::render_poster_image("poster.html", aspect_ratio = 1 / sqrt(2), poster_width = 420)
-```
